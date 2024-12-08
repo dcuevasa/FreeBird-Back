@@ -1,0 +1,2687 @@
+{
+	"info": {
+		"_postman_id": "588f8d0f-4fb0-49f6-9684-e7badc852ea3",
+		"name": "Itinerary-ItineraryActivity",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25534577"
+	},
+	"item": [
+		{
+			"name": "Add an User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json();\r",
+							"pm.collectionVariables.set(\"userEmail\", JSON.stringify(data.email));\r",
+							"pm.collectionVariables.set(\"userPass\", JSON.stringify(data.password));\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"   pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"John Doe\",\r\n  \"email\": \"user@example.com\",\r\n  \"phone\": \"1234567890\",\r\n  \"profilePic\": \"https://example.com/profile.jpg\",\r\n  \"password\": \"securePassword123*\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/user",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "addUser",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"id\": \"1\",\r\n  \"name\": \"John Doe\",\r\n  \"email\": \"johndoe@example.com\",\r\n  \"phone\": \"+1234567890\",\r\n  \"profilePic\": \"https://example.com/profile-pic.jpg\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/users",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json();\r",
+							"pm.collectionVariables.set(\"token\", data.token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": {{userEmail}},\r\n    \"password\": {{userPass}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/user/login",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "addUser",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidXNlckBleGFtcGxlLmNvbSIsInN1YiI6IjMyYWYzNDI0LWExNjgtNGFjMC1iMDcxLThmMmVlZWMxN2NhYyIsImlhdCI6MTczMzA4MjU5MH0.JBjtG4kQ0njgcMwLAMfKiTaPr0l7qK9shCsyrnMl8Ns\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/users",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "Add an Itinerary",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()\r",
+							"pm.globals.set(\"itinerary_id\", data.id);\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"   pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Summer Vacation\",\r\n  \"budget\": 2500,\r\n  \"destination\": \"Hawaii\",\r\n  \"startDate\": \"2024-07-01T00:00:00.000Z\",\r\n  \"endDate\": \"2024-07-15T00:00:00.000Z\",\r\n  \"preferences\": [\"beach\", \"adventure\", \"local food\"],\r\n  \"transport\": \"airplane\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/itinerary",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"itinerary"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Add an Itinerary",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"f12e97c3-0695-4c18-818c-3ca438792235\",\r\n  \"name\": \"Summer Vacation\",\r\n  \"budget\": 2500,\r\n  \"destination\": \"Hawaii\",\r\n  \"startDate\": \"2024-07-01T00:00:00.000Z\",\r\n  \"endDate\": \"2024-07-15T00:00:00.000Z\",\r\n  \"preferences\": [\"beach\", \"adventure\", \"local food\"],\r\n  \"transport\": \"airplane\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/itineraries",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"itineraries"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "Add an ItineraryActivity 1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()\r",
+							"pm.globals.set(\"itinerary-activity_id\", data.id);\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"   pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"date\": \"2024-07-03T00:00:00.000Z\",\r\n  \"time\": \"10:00\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/itinerary-activity",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"itinerary-activity"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Add an ItineraryActivity",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"7c846b32-026f-43cf-88c4-4cf9c6ff6d0a\",\r\n  \"date\": \"2024-07-03T00:00:00.000Z\",\r\n  \"time\": \"10:00\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/itinerary-activity",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"itinerary-activity"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "Add an activity 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json();\r",
+							"pm.collectionVariables.set(\"activity_id\", data.id);\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"   pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"durationMins\": 217,\r\n    \"name\": \"bog\",\r\n    \"addressess\": [ \"7092 Waters Orchard\", \"77076 Depot Street\" ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/activity",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"activity"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Add an activity",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"durationMins\": 217,\r\n    \"name\": \"bog\",\r\n    \"addressess\": [ \"7092 Waters Orchard\", \"77076 Depot Street\" ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/activity",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"activity"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "Associate an Activity to an ItineraryActivity 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/itinerary-activity/{{itinerary-activity_id}}/activity/{{activity_id}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"itinerary-activity",
+						"{{itinerary-activity_id}}",
+						"activity",
+						"{{activity_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Associate an Activity to an ItineraryActivity",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"29b66763-ef5f-4061-8cec-4324bef90d47\",\r\n    \"date\": \"2024-07-03T00:00:00.000Z\",\r\n    \"time\": \"10:00\",\r\n    \"activity\": {\r\n        \"id\": \"25e34c56-f423-422f-a533-e14222f8be0e\",\r\n        \"durationMins\": 217,\r\n        \"name\": \"bog\",\r\n        \"addressess\": [\r\n            \"7092 Waters Orchard\",\r\n            \"77076 Depot Street\"\r\n        ]\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/itinerary-activity/{{itinerary-activity_id}}/activity/{{activity_id}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"itinerary-activity",
+								"{{itinerary-activity_id}}",
+								"activity",
+								"{{activity_id}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "Add an ItineraryActivity to an Itinerary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/itinerary/{{itinerary_id}}/itinerary-activity/{{itinerary-activity_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"itinerary",
+						"{{itinerary_id}}",
+						"itinerary-activity",
+						"{{itinerary-activity_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Add an ItineraryActivity to an Itinerary",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"La Femme qui pleure\",\n    \"description\": \"The Weeping Woman, I is an elaboration of one of the central figures in Picasso’s famous mural-size painting Guernica, executed some months earlier.\",\n    \"year\": 1837,\n    \"type\": \"Painting\",\n    \"mainImage\": \"https://assets.catawiki.nl/assets/2019/3/7/2/f/5/2f5c8a17-0b06-4f26-b4a7-4fa51a430ce1.jpg\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/itinerary/{{itinerary_id}}/itinerary-activity/{{itinerary-activity_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"itinerary",
+								"{{itinerary_id}}",
+								"itinerary-activity",
+								"{{itinerary-activity_id}}"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "375"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"177-KviNwRfAdyNZmiHt915SK9j7Ask\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 02 Aug 2022 18:55:52 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"name\": \"La Femme qui pleure\",\n    \"description\": \"The Weeping Woman, I is an elaboration of one of the central figures in Picasso’s famous mural-size painting Guernica, executed some months earlier.\",\n    \"mainImage\": \"https://assets.catawiki.nl/assets/2019/3/7/2/f/5/2f5c8a17-0b06-4f26-b4a7-4fa51a430ce1.jpg\",\n    \"type\": \"Painting\",\n    \"year\": 1837,\n    \"id\": \"37d742be-e0e0-4024-b840-64cb41623aed\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Add an ItineraryActivity 2",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()\r",
+							"pm.globals.set(\"itinerary-activity_id2\", data.id);\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"   pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"date\": \"2024-07-03T00:00:00.000Z\",\r\n  \"time\": \"10:00\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/itinerary-activity",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"itinerary-activity"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Add an ItineraryActivity",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"7c846b32-026f-43cf-88c4-4cf9c6ff6d0a\",\r\n  \"date\": \"2024-07-03T00:00:00.000Z\",\r\n  \"time\": \"12:00\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/itinerary-activity",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"itinerary-activity"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "Add an activity 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json();\r",
+							"pm.collectionVariables.set(\"activity_id2\", data.id);\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"   pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"durationMins\": 217,\r\n    \"name\": \"bog\",\r\n    \"addressess\": [ \"7092 Waters Orchard\", \"77076 Depot Street\" ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/activity",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"activity"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Add an activity",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"durationMins\": 217,\r\n    \"name\": \"bog\",\r\n    \"addressess\": [ \"7092 Waters Orchard\", \"77076 Depot Street\" ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/activity",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"activity"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "Associate an Activity to an ItineraryActivity 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/itinerary-activity/{{itinerary-activity_id2}}/activity/{{activity_id2}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"itinerary-activity",
+						"{{itinerary-activity_id2}}",
+						"activity",
+						"{{activity_id2}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Associate an Activity to an ItineraryActivity",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"29b66763-ef5f-4061-8cec-4324bef90d47\",\r\n    \"date\": \"2024-07-03T00:00:00.000Z\",\r\n    \"time\": \"10:00\",\r\n    \"activity\": {\r\n        \"id\": \"25e34c56-f423-422f-a533-e14222f8be0e\",\r\n        \"durationMins\": 217,\r\n        \"name\": \"bog\",\r\n        \"addressess\": [\r\n            \"7092 Waters Orchard\",\r\n            \"77076 Depot Street\"\r\n        ]\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/itinerary-activity/{{itinerary-activity_id}}/activity/{{activity_id}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"itinerary-activity",
+								"{{itinerary-activity_id}}",
+								"activity",
+								"{{activity_id}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "Add an Invalid ItineraryActivity to an Itinerary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 412\", function () {",
+							"    pm.response.to.have.status(412);",
+							"});",
+							"",
+							"pm.test(\"Get expected error message\", function () {",
+							"    var data = pm.response.json();",
+							"    pm.expect(data.message).to.eql(\"The itinerary activity has a conflict with another itinerary activity\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/itinerary/{{itinerary_id}}/itinerary-activity/{{itinerary-activity_id2}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"itinerary",
+						"{{itinerary_id}}",
+						"itinerary-activity",
+						"{{itinerary-activity_id2}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Add an Invalid ItineraryActivity to an Itinerary",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"La Femme qui pleure\",\n    \"description\": \"The Weeping Woman, I is an elaboration of one of the central figures in Picasso’s famous mural-size painting Guernica, executed some months earlier.\",\n    \"year\": 1837,\n    \"type\": \"Painting\",\n    \"mainImage\": \"https://assets.catawiki.nl/assets/2019/3/7/2/f/5/2f5c8a17-0b06-4f26-b4a7-4fa51a430ce1.jpg\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/itinerary/{{itinerary_id}}/itinerary-activity/{{itinerary-activity_id2}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"itinerary",
+								"{{itinerary_id}}",
+								"itinerary-activity",
+								"{{itinerary-activity_id2}}"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "375"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"177-KviNwRfAdyNZmiHt915SK9j7Ask\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 02 Aug 2022 18:55:52 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"name\": \"La Femme qui pleure\",\n    \"description\": \"The Weeping Woman, I is an elaboration of one of the central figures in Picasso’s famous mural-size painting Guernica, executed some months earlier.\",\n    \"mainImage\": \"https://assets.catawiki.nl/assets/2019/3/7/2/f/5/2f5c8a17-0b06-4f26-b4a7-4fa51a430ce1.jpg\",\n    \"type\": \"Painting\",\n    \"year\": 1837,\n    \"id\": \"37d742be-e0e0-4024-b840-64cb41623aed\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Add an ItineraryActivity to an invalid Itinerary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Get expected error message\", function () {",
+							"    var data = pm.response.json();",
+							"    pm.expect(data.message).to.eql(\"The itinerary with the given id was not found\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/itinerary/00000000-0000-0000-0000-000000000000/itinerary-activity/{{itinerary-activity_id2}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"itinerary",
+						"00000000-0000-0000-0000-000000000000",
+						"itinerary-activity",
+						"{{itinerary-activity_id2}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Add an ItineraryActivity to an invalid Itinerary",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/itinerary/00000000-0000-0000-0000-000000000000/itinerary-activity/{{itinerary-activity_id2}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"itinerary",
+								"00000000-0000-0000-0000-000000000000",
+								"itinerary-activity",
+								"{{itinerary-activity_id2}}"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "73"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"49-v/cpCsS/IuHJb9v22y7e8zPAYzs\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 02 Aug 2022 20:12:51 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 404,\n    \"message\": \"The museum with the given id was not found\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get an ItineraryActivity of an Itinerary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/itinerary/{{itinerary_id}}/itinerary-activity/{{itinerary-activity_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"itinerary",
+						"{{itinerary_id}}",
+						"itinerary-activity",
+						"{{itinerary-activity_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get an ItineraryActivity of an Itinerary",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/itinerary/{{itinerary_id}}/itinerary-activity/{{itinerary-activity_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"itinerary",
+								"{{itinerary_id}}",
+								"itinerary-activity",
+								"{{itinerary-activity_id}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "375"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"177-ikNQ+rTE1CHOKyECsxXWUY0AeNY\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 02 Aug 2022 19:41:52 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"7e265679-3a85-416d-afca-80fd04e2b79c\",\n    \"name\": \"La Femme qui pleure\",\n    \"year\": 1837,\n    \"description\": \"The Weeping Woman, I is an elaboration of one of the central figures in Picasso’s famous mural-size painting Guernica, executed some months earlier.\",\n    \"type\": \"Painting\",\n    \"mainImage\": \"https://assets.catawiki.nl/assets/2019/3/7/2/f/5/2f5c8a17-0b06-4f26-b4a7-4fa51a430ce1.jpg\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get an invalid ItineraryActivity of an Itinerary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Get expected error message\", function () {",
+							"    var data = pm.response.json();",
+							"    pm.expect(data.message).to.eql(\"The itinerary activity with the given id was not found\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/itinerary/{{itinerary_id}}/itinerary-activity/00000000-0000-0000-0000-000000000000",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"itinerary",
+						"{{itinerary_id}}",
+						"itinerary-activity",
+						"00000000-0000-0000-0000-000000000000"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get an invalid ItineraryActivity of an Itinerary",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/itinerary/{{itinerary_id}}/itinerary-activity/00000000-0000-0000-0000-000000000000",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"itinerary",
+								"{{itinerary_id}}",
+								"itinerary-activity",
+								"00000000-0000-0000-0000-000000000000"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "74"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"4a-HdSXQ9DOFik77lA6BTILifOYwSg\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 02 Aug 2022 20:17:12 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 404,\n    \"message\": \"The artwork with the given id was not found\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get an ItineraryActivity of an invalid Itinerary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Get expected error message\", function () {",
+							"    var data = pm.response.json();",
+							"    pm.expect(data.message).to.eql(\"The itinerary with the given id was not found\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/itinerary/00000000-0000-0000-0000-000000000000/itinerary-activity/{{itinerary-activity_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"itinerary",
+						"00000000-0000-0000-0000-000000000000",
+						"itinerary-activity",
+						"{{itinerary-activity_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get an ItineraryActivity of an invalid Itinerary",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/itinerary/00000000-0000-0000-0000-000000000000/itinerary-activity/{{itinerary-activity_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"itinerary",
+								"00000000-0000-0000-0000-000000000000",
+								"itinerary-activity",
+								"{{itinerary-activity_id}}"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "73"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"49-v/cpCsS/IuHJb9v22y7e8zPAYzs\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 02 Aug 2022 20:17:49 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 404,\n    \"message\": \"The museum with the given id was not found\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get an ItineraryActivity non-associated to an Itinerary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 412\", function () {",
+							"    pm.response.to.have.status(412);",
+							"});",
+							"",
+							"pm.test(\"Get expected error message\", function () {",
+							"    var data = pm.response.json();",
+							"    pm.expect(data.message).to.eql(\"The itinerary activity with the given id is not associated to the itinerary\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/itinerary/{{itinerary_id}}/itinerary-activity/{{itinerary-activity_id2}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"itinerary",
+						"{{itinerary_id}}",
+						"itinerary-activity",
+						"{{itinerary-activity_id2}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get an ItineraryActivity non-associated to an Itinerary",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/itinerary/{{itinerary_id}}/itinerary-activity/{{itinerary-activity_id2}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"itinerary",
+								"{{itinerary_id}}",
+								"itinerary-activity",
+								"{{itinerary-activity_id2}}"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "73"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"49-v/cpCsS/IuHJb9v22y7e8zPAYzs\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 02 Aug 2022 20:17:49 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 404,\n    \"message\": \"The museum with the given id was not found\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get all ItineraryActivities of an Itinerary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/itinerary/{{itinerary_id}}/itinerary-activity",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"itinerary",
+						"{{itinerary_id}}",
+						"itinerary-activity"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get all ItineraryActivities of an Itinerary",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/itinerary/{{itinerary_id}}/itinerary-activity",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"itinerary",
+								"{{itinerary_id}}",
+								"itinerary-activity"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "377"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"179-6S7ZAxEW3K6BN+FOKdKf3W/TOeg\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 02 Aug 2022 20:21:36 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": \"3944ad86-931d-43be-8c40-e755d7a0c808\",\n        \"date\": \"2024-07-03T00:00:00.000Z\",\n        \"time\": \"10:00\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Get all ItineraryActivities of an invalid Itinerary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Get expected error message\", function () {",
+							"    var data = pm.response.json();",
+							"    pm.expect(data.message).to.eql(\"The itinerary with the given id was not found\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/itinerary/00000000-0000-0000-0000-000000000000/itinerary-activity/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"itinerary",
+						"00000000-0000-0000-0000-000000000000",
+						"itinerary-activity",
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get all ItineraryActivities of an invalid Itinerary",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/itinerary/00000000-0000-0000-0000-000000000000/itinerary-activity/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"itinerary",
+								"00000000-0000-0000-0000-000000000000",
+								"itinerary-activity",
+								""
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "73"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"49-v/cpCsS/IuHJb9v22y7e8zPAYzs\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 02 Aug 2022 20:24:54 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 404,\n    \"message\": \"The itinerary with the given id was not found\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Update ItineraryActivities of an Itinerary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"id\": \"{{itinerary-activity_id2}}\"\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/itinerary/{{itinerary_id}}/itinerary-activity",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"itinerary",
+						"{{itinerary_id}}",
+						"itinerary-activity"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update ItineraryActivities of an Itinerary",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"id\": \"{{artwork_id_2}}\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/itinerary/{{itinerary_id}}/itinerary-activity",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"itinerary",
+								"{{itinerary_id}}",
+								"itinerary-activity"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1149"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"47d-lloYeq9lZuh7ys1VbmtoB9Zh6o4\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 02 Aug 2022 19:56:52 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"31a69eea-0bad-419e-8ed6-39d6f11a8a90\",\n    \"name\": \"Summer Vacation\",\n    \"budget\": 2500,\n    \"destination\": \"Hawaii\",\n    \"startDate\": \"2024-07-01T00:00:00.000Z\",\n    \"endDate\": \"2024-07-15T00:00:00.000Z\",\n    \"preferences\": [\n        \"beach\",\n        \"adventure\",\n        \"local food\"\n    ],\n    \"transport\": \"airplane\",\n    \"itineraryActivities\": [\n        {\n            \"id\": \"2c0120a5-c622-439f-a228-d3f466a40f51\"\n        }\n    ],\n    \"users\": []\n}"
+				}
+			]
+		},
+		{
+			"name": "Update invalid ItineraryActivities of an Itinerary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Get expected error message\", function () {",
+							"    var data = pm.response.json();",
+							"    pm.expect(data.message).to.eql(\"The itinerary activity with the id 00000000-0000-0000-0000-000000000000 was not found\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"id\": \"00000000-0000-0000-0000-000000000000\"\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/itinerary/{{itinerary_id}}/itinerary-activity",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"itinerary",
+						"{{itinerary_id}}",
+						"itinerary-activity"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update invalid ItineraryActivities of an Itinerary",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"id\": \"00000000-0000-0000-0000-000000000000\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/itinerary/{{itinerary_id}}/itinerary-activity",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"itinerary",
+								"{{itinerary_id}}",
+								"itinerary-activity"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1149"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"47d-lloYeq9lZuh7ys1VbmtoB9Zh6o4\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 02 Aug 2022 19:56:52 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 404,\n    \"message\": \"The itinerary activity with the id 00000000-0000-0000-0000-000000000000 was not found\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Update ItineraryActivities of an invalid Itinerary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Get expected error message\", function () {",
+							"    var data = pm.response.json();",
+							"    pm.expect(data.message).to.eql(\"The itinerary with the given id was not found\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"id\": \"{{itinerary-activity_id2}}\"\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/itinerary/00000000-0000-0000-0000-000000000000/itinerary-activity",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"itinerary",
+						"00000000-0000-0000-0000-000000000000",
+						"itinerary-activity"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update ItineraryActivities of an invalid Itinerary",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"id\": \"{{artwork_id_2}}\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/itinerary/{{itinerary_id}}/itinerary-activity",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"itinerary",
+								"{{itinerary_id}}",
+								"itinerary-activity"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1149"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"47d-lloYeq9lZuh7ys1VbmtoB9Zh6o4\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 02 Aug 2022 19:56:52 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 404,\n    \"message\": \"The itinerary with the given id was not found\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete an ItineraryActivity of an Itinerary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/itinerary/{{itinerary_id}}/itinerary-activity/{{itinerary-activity_id2}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"itinerary",
+						"{{itinerary_id}}",
+						"itinerary-activity",
+						"{{itinerary-activity_id2}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delete an ItineraryActivity of an Itinerary",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/itinerary/{{itinerary_id}}/itinerary-activity/{{itinerary-activity_id2}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"itinerary",
+								"{{itinerary_id}}",
+								"itinerary-activity",
+								"{{itinerary-activity_id2}}"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 02 Aug 2022 20:50:16 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "Delete an ItineraryActivity of an invalid Itinerary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Get expected error message\", function () {",
+							"    var data = pm.response.json();",
+							"    pm.expect(data.message).to.eql(\"The itinerary with the given id was not found\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/itinerary/00000000-0000-0000-0000-000000000000/itinerary-activity/{{itinerary-activity_id2}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"itinerary",
+						"00000000-0000-0000-0000-000000000000",
+						"itinerary-activity",
+						"{{itinerary-activity_id2}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delete an ItineraryActivity of an invalid Itinerary",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/itinerary/00000000-0000-0000-0000-000000000000/itinerary-activity/{{itinerary-activity_id2}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"itinerary",
+								"00000000-0000-0000-0000-000000000000",
+								"itinerary-activity",
+								"{{itinerary-activity_id2}}"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "73"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"49-v/cpCsS/IuHJb9v22y7e8zPAYzs\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 02 Aug 2022 20:50:26 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 404,\n    \"message\": \"The museum with the given id was not found\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete an invalid ItineraryActivity of an Itinerary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Get expected error message\", function () {",
+							"    var data = pm.response.json();",
+							"    pm.expect(data.message).to.eql(\"The itinerary activity with the given id was not found\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/itinerary/{{itinerary_id}}/itinerary-activity/00000000-0000-0000-0000-000000000000",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"itinerary",
+						"{{itinerary_id}}",
+						"itinerary-activity",
+						"00000000-0000-0000-0000-000000000000"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delete an invalid ItineraryActivity of an Itinerary",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/itinerary/{{itinerary_id}}/itinerary-activity/00000000-0000-0000-0000-000000000000",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"itinerary",
+								"{{itinerary_id}}",
+								"itinerary-activity",
+								"00000000-0000-0000-0000-000000000000"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "73"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"49-v/cpCsS/IuHJb9v22y7e8zPAYzs\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 02 Aug 2022 20:50:26 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 404,\n    \"message\": \"The itinerary activity with the given id was not found\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete an ItineraryActivity non-associated to an Itinerary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 412\", function () {",
+							"    pm.response.to.have.status(412);",
+							"});",
+							"",
+							"pm.test(\"Get expected error message\", function () {",
+							"    var data = pm.response.json();",
+							"    pm.expect(data.message).to.eql(\"The itinerary activity with the given id is not associated to the itinerary\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/itinerary/{{itinerary_id}}/itinerary-activity/{{itinerary-activity_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"itinerary",
+						"{{itinerary_id}}",
+						"itinerary-activity",
+						"{{itinerary-activity_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delete an artwork of an invalid museum",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/museums/00000000-0000-0000-0000-000000000000/artworks/{{artwork_id_2}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"museums",
+								"00000000-0000-0000-0000-000000000000",
+								"artworks",
+								"{{artwork_id_2}}"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "73"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"49-v/cpCsS/IuHJb9v22y7e8zPAYzs\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 02 Aug 2022 20:50:26 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 404,\n    \"message\": \"The museum with the given id was not found\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete an ItineraryActivity 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/itinerary-activity/{{itinerary-activity_id2}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"itinerary-activity",
+						"{{itinerary-activity_id2}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delete an ItineraryActivity",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/itinerary-activity/{{itinerary-activity_id2}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"itinerary-activity",
+								"{{itinerary-activity_id2}}"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "73"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"49-v/cpCsS/IuHJb9v22y7e8zPAYzs\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 02 Aug 2022 20:50:26 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 404,\n    \"message\": \"The museum with the given id was not found\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete an ItineraryActivity 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/itinerary-activity/{{itinerary-activity_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"itinerary-activity",
+						"{{itinerary-activity_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delete an artwork of an invalid museum",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/itinerary-activity/{{itinerary-activity_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"itinerary-activity",
+								"{{itinerary-activity_id}}"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "73"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"49-v/cpCsS/IuHJb9v22y7e8zPAYzs\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 02 Aug 2022 20:50:26 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 404,\n    \"message\": \"The museum with the given id was not found\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete an activity 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"   pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/activity/{{activity_id2}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"activity",
+						"{{activity_id2}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delete an activity",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"durationMins\": 217,\r\n    \"name\": \"bog\",\r\n    \"addressess\": [ \"7092 Waters Orchard\", \"77076 Depot Street\" ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/activity/{{activity_id}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"activity",
+								"{{activity_id}}"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "Delete an activity 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"   pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/activity/{{activity_id}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"activity",
+						"{{activity_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delete an activity",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/activity/{{activity_id}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"activity",
+								"{{activity_id}}"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "Delete an Itinerary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/itinerary/{{itinerary_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"itinerary",
+						"{{itinerary_id}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delete an Itinerary",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/itinerary/{{itinerary_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"itinerary",
+								"{{itinerary_id}}"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "73"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"49-v/cpCsS/IuHJb9v22y7e8zPAYzs\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 02 Aug 2022 20:50:26 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 404,\n    \"message\": \"The museum with the given id was not found\"\n}"
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "activity_id",
+			"value": ""
+		},
+		{
+			"key": "activity_id2",
+			"value": ""
+		},
+		{
+			"key": "userEmail",
+			"value": ""
+		},
+		{
+			"key": "userPass",
+			"value": ""
+		},
+		{
+			"key": "token",
+			"value": ""
+		}
+	]
+}
